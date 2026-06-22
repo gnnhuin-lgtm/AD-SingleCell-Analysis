@@ -1,0 +1,30 @@
+Package: bioinformaticsSkills
+Title: 生信技能 - 基因组和蛋白质组数据分析框架
+Version: 0.1.0
+Authors@R: c(
+    person("Your", "Name", email = "you@example.com", role = c("aut", "cre"))
+    )
+Description: 一个专业的R语言生信分析框架，支持基因组数据处理（DNA-seq、RNA-seq）
+    和蛋白质组学分析。提供数据预处理、质量控制、统计分析和可视化功能。
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Depends:
+    R (>= 4.0.0)
+Imports:
+    tidyverse (>= 1.3.0),
+    ggplot2 (>= 3.3.0),
+    dplyr (>= 1.0.0),
+    tidyr (>= 1.1.0),
+    magrittr (>= 2.0.0),
+    ComplexHeatmap (>= 2.10.0)
+Suggests:
+    DESeq2,
+    limma,
+    edgeR,
+    GenomicRanges,
+    VariantAnnotation,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr

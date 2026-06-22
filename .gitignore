@@ -1,0 +1,46 @@
+# R相关文件
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.DS_Store
+
+# 输出文件
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.html
+
+# 数据文件（示例）
+data/raw/
+data/processed/
+results/
+output/
+
+# Python相关
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp

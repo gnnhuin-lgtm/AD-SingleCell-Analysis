@@ -1,0 +1,7 @@
+^\.gitignore
+^README\.Rmd$
+^README\.html$
+^cran-comments\.md$
+^vignettes$
+^data-raw$
+^inst/scripts$

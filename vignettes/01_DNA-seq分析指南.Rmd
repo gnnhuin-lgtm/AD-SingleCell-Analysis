@@ -1,0 +1,53 @@
+---
+title: "DNA-seq分析指南"
+author: "生信技能"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DNA-seq分析指南}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 概述
+
+本文档介绍如何使用生信技能包进行DNA-seq分析，包括：
+- 数据读取和预处理
+- 质量控制
+- 变异检测和注释
+- 结果可视化
+
+## 环境设置
+
+```r
+library(bioinformaticsSkills)
+library(tidyverse)
+```
+
+## 第一步：数据读取
+
+```r
+# 读取VCF文件或变异调用结果
+variants <- read_count_matrix("data/variants.vcf")
+```
+
+## 第二步：质量控制
+
+```r
+# 计算QC指标
+qc_metrics <- calculate_qc_metrics(variants)
+
+# 绘制QC报告
+plot_qc_report(qc_metrics, output_dir = "results/qc/")
+```
+
+## 第三步：变异注释
+
+详细说明待完成...
+
+## 第四步：结果导出
+
+```r
+# 保存分析结果
+save_result(variants, "results/annotated_variants.csv", format = "csv")
+```

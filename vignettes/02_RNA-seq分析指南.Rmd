@@ -1,0 +1,105 @@
+---
+title: "RNA-seq分析指南"
+author: "生信技能"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RNA-seq分析指南}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 概述
+
+本文档介绍如何使用生信技能包进行RNA-seq分析，包括：
+- 数据标准化
+- 差异表达分析
+- 功能注释和富集分析
+- 结果可视化
+
+## 环境设置
+
+```r
+library(bioinformaticsSkills)
+library(tidyverse)
+library(ggplot2)
+```
+
+## 第一步：数据读取和预处理
+
+```r
+# 读取表达矩阵
+counts <- read_count_matrix("data/counts.csv")
+
+# 数据标准化
+normalized <- normalize_data(counts, method = "cpm")
+
+# 对数变换
+log_counts <- log_transform(normalized, pseudocount = 1)
+```
+
+## 第二步：质量控制
+
+```r
+# 读取元数据
+metadata <- read.csv("data/metadata.csv", row.names = 1)
+
+# 计算QC指标
+qc_metrics <- calculate_qc_metrics(counts, metadata)
+
+# 过滤低质量样本
+filtered_counts <- filter_low_quality_samples(counts, qc_metrics, min_features = 500)
+```
+
+## 第三步：差异表达分析
+
+```r
+# 进行DE分析
+de_results <- differential_expression(
+  counts = filtered_counts,
+  metadata = metadata,
+  group_col = "group",
+  contrast = c("treatment", "control"),
+  method = "DESeq2"
+)
+
+# 查看结果
+head(de_results)
+```
+
+## 第四步：结果可视化
+
+```r
+# 火山图
+volcano <- plot_volcano(de_results, fc_threshold = 1, pval_threshold = 0.05)
+print(volcano)
+
+# MA图
+ma_plot <- plot_ma(de_results)
+print(ma_plot)
+
+# PCA图
+pca <- plot_pca(log_counts, metadata, color_by = "group")
+print(pca)
+```
+
+## 第五步：富集分析
+
+```r
+# 提取显著基因
+sig_genes <- de_results[de_results$padj < 0.05 & abs(de_results$log2FC) > 1, "gene_id"]
+
+# GO富集分析
+enrichment <- enrichment_analysis(sig_genes, analysis_type = "GO")
+head(enrichment)
+```
+
+## 第六步：结果导出
+
+```r
+# 保存DE结果
+save_result(de_results, "results/de_results.csv", format = "csv")
+
+# 保存富集分析结果
+save_result(enrichment, "results/enrichment_results.csv", format = "csv")
+```

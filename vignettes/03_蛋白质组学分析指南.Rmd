@@ -1,0 +1,94 @@
+---
+title: "蛋白质组学分析指南"
+author: "生信技能"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{蛋白质组学分析指南}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 概述
+
+本文档介绍如何使用生信技能包进行蛋白质组学数据分析，包括：
+- 蛋白质定量数据处理
+- 质量控制
+- 差异丰度分析
+- 功能分析
+
+## 环境设置
+
+```r
+library(bioinformaticsSkills)
+library(tidyverse)
+library(ggplot2)
+```
+
+## 第一步：数据读取
+
+```r
+# 读取蛋白质组数据
+protein_data <- read_count_matrix("data/protein_abundance.csv")
+
+# 读取样本信息
+metadata <- read.csv("data/sample_info.csv", row.names = 1)
+```
+
+## 第二步：质量控制
+
+```r
+# 计算QC指标
+qc_metrics <- calculate_qc_metrics(protein_data, metadata)
+
+# 绘制QC报告
+plot_qc_report(qc_metrics, output_dir = "results/qc/")
+
+# 检测离群值
+outliers <- outlier_detection(qc_metrics, method = "mad")
+protein_data_filtered <- protein_data[, !outliers]
+```
+
+## 第三步：数据标准化
+
+```r
+# 进行标准化
+normalized <- normalize_data(protein_data_filtered, method = "quantile")
+
+# 对数变换
+log_protein <- log_transform(normalized, pseudocount = 1)
+```
+
+## 第四步：差异丰度分析
+
+```r
+# 进行DA分析
+da_results <- differential_expression(
+  counts = protein_data_filtered,
+  metadata = metadata[!outliers, ],
+  group_col = "group",
+  contrast = c("disease", "normal"),
+  method = "limma"
+)
+```
+
+## 第五步：结果可视化
+
+```r
+# 火山图
+volcano <- plot_volcano(da_results)
+print(volcano)
+
+# 热图展示显著蛋白质
+sig_proteins <- da_results[da_results$padj < 0.05, ]
+heatmap_data <- log_protein[sig_proteins$gene_id, ]
+heatmap <- plot_heatmap(heatmap_data, title = "差异丰度蛋白质热图")
+print(heatmap)
+```
+
+## 第六步：结果导出
+
+```r
+# 保存分析结果
+save_result(da_results, "results/protein_da_results.csv", format = "csv")
+```

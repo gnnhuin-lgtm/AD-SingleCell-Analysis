@@ -1,0 +1,23 @@
+# 导出的函数
+export("read_count_matrix")
+export("normalize_data")
+export("log_transform")
+export("batch_correction")
+export("calculate_qc_metrics")
+export("plot_qc_report")
+export("filter_low_quality_samples")
+export("outlier_detection")
+export("differential_expression")
+export("enrichment_analysis")
+export("correlation_analysis")
+export("plot_volcano")
+export("plot_ma")
+export("plot_heatmap")
+export("plot_pca")
+export("plot_boxplot")
+
+# 导入的包
+importFrom("tidyverse", "%>%")
+importFrom("ggplot2", "ggplot", "aes", "geom_point", "theme")
+importFrom("dplyr", "mutate", "filter", "select", "group_by", "summarise")
+importFrom("ComplexHeatmap", "Heatmap")
