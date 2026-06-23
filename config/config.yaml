@@ -1,0 +1,121 @@
+# AD-SingleCell-Analysis Configuration
+# ========================================
+
+# Data paths
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+
+# Output paths
+output:
+  figures_dir: "results/figures"
+  tables_dir: "results/tables"
+  reports_dir: "results/reports"
+  logs_dir: "logs"
+
+# Quality control parameters
+quality_control:
+  min_genes: 200
+  max_genes: 10000
+  min_cells: 3
+  percent_mt: 20
+  min_counts: 500
+  max_counts: 50000
+
+# Normalization
+normalization:
+  target_sum: 10000
+  log_base: 2
+
+# Highly variable gene selection
+hvg:
+  n_top_genes: 2000
+  flavor: "seurat_v3"  # seurat_v3, seurat, or cell_ranger
+  batch_key: null
+
+# Dimensionality reduction
+dim_reduction:
+  n_pcs: 50
+  random_state: 42
+
+# Neighbors and clustering
+clustering:
+  method: "leiden"     # leiden or louvain
+  resolution: 0.5
+  n_neighbors: 15
+  metric: "euclidean"
+  random_state: 42
+
+# UMAP
+umap:
+  n_neighbors: 15
+  min_dist: 0.1
+  metric: "euclidean"
+  random_state: 42
+
+# Cell type annotation
+annotation:
+  method: "singler"     # singler, scmap, or seurat_transfer
+  organ: "brain"
+  tissue_type: "cortex"
+  reference: null
+
+# Differential expression
+differential_expression:
+  method: "wilcoxon"    # wilcoxon, t-test, or logreg
+  min_log2fc: 0.25
+  max_pval: 0.05
+  min_pct: 0.1
+
+# AD-specific gene sets
+ad_gene_sets:
+  amyloid_genes:
+    - APP
+    - PSEN1
+    - PSEN2
+    - BACE1
+    - BACE2
+    - ADAM10
+  tau_genes:
+    - MAPT
+    - GSK3B
+    - CDK5
+    - MARK1
+    - DYRK1A
+  microglia_genes:
+    - TREM2
+    - TYROBP
+    - CD33
+    - CSF1R
+    - CX3CR1
+    - ITGAM
+  astrocyte_genes:
+    - GFAP
+    - S100B
+    - AQP4
+    - ALDH1L1
+    - SLC1A3
+  risk_genes:
+    - APOE
+    - CLU
+    - PICALM
+    - CR1
+    - BIN1
+    - ABCA7
+    - CD2AP
+    - EPHA1
+    - MS4A6A
+
+# Logging
+logging:
+  level: "INFO"
+  file: "logs/analysis.log"
+
+# Visualization
+visualization:
+  figure_dpi: 300
+  figure_format: "png"  # png, pdf, or svg
+  figsize_width: 10
+  figsize_height: 8
+  color_map: "viridis"
